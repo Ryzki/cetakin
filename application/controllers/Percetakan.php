@@ -43,16 +43,30 @@ class Percetakan extends MY_Controller
 
 	public function detail($id)
 	{
-		$data['data'] = $this->percetakan_model->get($id);
-		$data['percetakan_lainnya'] = $this->percetakan_model
-			->where('status_dokumen', '1')
-			->where('status_verifikasi', '1')
-			->get_all();
-		$data['info_harga'] = $this->info_harga_model->where('idpercetakan', $id)->get_all();
-		// dump($id);
+		$kategori = $this->uri->segment(3);
 
-		$this->generateCsrf();
-		$this->render('percetakan/detail_percetakan', $data);
+		if ($kategori == 'dokumen') { 
+			$data['data'] = $this->percetakan_model->get($id);
+			$data['percetakan_lainnya'] = $this->percetakan_model
+				->where('status_dokumen', '1')
+				->where('status_verifikasi', '1')
+				->get_all();
+			$data['info_harga'] = $this->info_harga_model->where('idpercetakan', $id)->get_all(); 
+	
+			$this->generateCsrf();
+			$this->render('percetakan/detail_percetakan_dokumen', $data);
+		} else { 
+			$data['data'] = $this->percetakan_model->get($id);
+			$data['percetakan_lainnya'] = $this->percetakan_model
+				->where('status_dokumen', '1')
+				->where('status_verifikasi', '1')
+				->get_all();
+			$data['info_harga'] = $this->info_harga_model->where('idpercetakan', $id)->get_all();
+			// dump($id);
+	
+			$this->generateCsrf();
+			$this->render('percetakan/detail_percetakan_foto', $data);
+		}
 	}
 
 	public function pendaftaran()
