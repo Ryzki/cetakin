@@ -44,7 +44,7 @@ class Percetakan extends MY_Controller
 
 	public function detail($id)
 	{
-		$kategori = $this->uri->segment(3);
+		$kategori = $this->uri->segment(4);
 
 		if ($kategori == 'dokumen') {
 			$data['data'] = $this->percetakan_model->get($id);
@@ -240,7 +240,8 @@ class Percetakan extends MY_Controller
 		$upload = $this->upload->do_upload('file');
 
 		if ($upload == false) {
-			dump('File gagal diupload! Periksa gambar');
+			$error = array('error' => $this->upload->display_errors());
+			dump($error);
 		}
 
 		$upload = $this->upload->data();

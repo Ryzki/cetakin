@@ -81,7 +81,7 @@
         <form action="{{site_url('pelanggan/saldo_user/konfirmasi')}}" method="post" enctype="multipart/form-data">
           {{$csrf}}
 					{{form_hidden('id_saldo', $data->id)}}
-
+ 
           <div class="form-group">
             <label for="nama_rek">Nama Rekening</label>
             <input type="text" class="form-control" name="nama_rek" id="nama_rek">

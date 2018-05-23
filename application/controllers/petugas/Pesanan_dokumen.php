@@ -1,19 +1,20 @@
 <?php
 
 /**
-*
-*/
+ *
+ */
 class Pesanan_dokumen extends MY_Controller
 {
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_accessable = TRUE;
+		$this->_accessable = true;
 		$this->load->helper(array('dump', 'date', 'download', 'number'));
 		$this->load->model('admin/petugas_model');
 		$this->load->model('pelanggan/pesanan_dokumen_model');
 		$this->load->model('pelanggan/saldo_user_model');
+		$this->load->model('saldo_percetakan_model');
 		$this->load->model('token_user_model');
 	}
 
@@ -24,7 +25,7 @@ class Pesanan_dokumen extends MY_Controller
 		$config['base_url'] = base_url() . 'petugas/pesanan_dokumen/index/';
 		// Class bootstrap pagination yang digunakan
 		$config['full_tag_open'] = "<ul class='pagination pagination-sm no-margin pull-right'>";
-		$config['full_tag_close'] ="</ul>";
+		$config['full_tag_close'] = "</ul>";
 		$config['num_tag_open'] = '<li>';
 		$config['num_tag_close'] = '</li>';
 		$config['cur_tag_open'] = "<li class='disabled'><li class='active'><a href='#'>";
@@ -43,13 +44,13 @@ class Pesanan_dokumen extends MY_Controller
 		$petugas = $this->petugas_model->where('idusers', $user->id)->get();
 
 		$data = $this->pesanan_dokumen_model
-		->where('idpercetakan', $petugas->idpercetakan)
-		->with_relasiuser()
-		->limit($config['per_page'],$offset=$start)
-		->order_by('created_at', 'DESC')
-		->get_all();
+			->where('idpercetakan', $petugas->idpercetakan)
+			->with_relasiuser()
+			->limit($config['per_page'], $offset = $start)
+			->order_by('created_at', 'DESC')
+			->get_all();
 		$config['total_rows'] = $this->pesanan_dokumen_model
-		->count_rows();
+			->count_rows();
 
 		$this->load->library('pagination');
 		$this->pagination->initialize($config);
@@ -70,25 +71,25 @@ class Pesanan_dokumen extends MY_Controller
 	public function view($id)
 	{
 		$data['data'] = $this->pesanan_dokumen_model
-		->with_relasiuser()
-		->get($id);
+			->with_relasiuser()
+			->get($id);
 		$data['saldo_pelanggan'] = $this->saldo_user_model
-		->getJumlahSaldo($data['data']->idusers);
+			->getJumlahSaldo($data['data']->idusers);
 
 		$this->generateCsrf();
 		$this->render('petugas/pesanan_dokumen/view', $data);
 	}
 
-	public function proses($id='')
+	public function proses($id = '')
 	{
-		$this->pesanan_dokumen_model->update(array('status'=>'1'), $id);
-		$this->go('petugas/pesanan_dokumen/view/'.$id);
+		$this->pesanan_dokumen_model->update(array('status' => '1'), $id);
+		$this->go('petugas/pesanan_dokumen/view/' . $id);
 	}
 
-	public function tolak($id='')
+	public function tolak($id = '')
 	{
-		$this->pesanan_dokumen_model->update(array('status'=>'3'), $id);
-		$this->go('petugas/pesanan_dokumen/view/'.$id);
+		$this->pesanan_dokumen_model->update(array('status' => '3'), $id);
+		$this->go('petugas/pesanan_dokumen/view/' . $id);
 	}
 
 	// public function selesai($id='')
@@ -97,15 +98,15 @@ class Pesanan_dokumen extends MY_Controller
 	// 	$this->go('petugas/pesanan_dokumen/view/'.$id);
 	// }
 
-	public function batalkan($id='')
+	public function batalkan($id = '')
 	{
-		$this->pesanan_dokumen_model->update(array('status'=>'0'), $id);
-		$this->go('petugas/pesanan_dokumen/view/'.$id);
+		$this->pesanan_dokumen_model->update(array('status' => '0'), $id);
+		$this->go('petugas/pesanan_dokumen/view/' . $id);
 	}
 
-	public function download_file($file='')
+	public function download_file($file = '')
 	{
-		force_download('uploads/percetakan/file/'.$file, NULL);
+		force_download('uploads/percetakan/file/' . $file, null);
 	}
 
 	public function selesai()
@@ -116,35 +117,43 @@ class Pesanan_dokumen extends MY_Controller
 		// end form validation
 		$data = $this->input->post();
 
-		if ($this->form_validation->run() == FALSE) {
+		if ($this->form_validation->run() == false) {
 			$data['data'] = $this->pesanan_dokumen_model
-			->with_relasiuser()
-			->get($id);
+				->with_relasiuser()
+				->get($id);
 			$data['saldo_pelanggan'] = $this->saldo_user_model
-			->getJumlahSaldo($data['data']->idusers);
+				->getJumlahSaldo($data['data']->idusers);
 
 			$this->generateCsrf();
 			$this->render('petugas/pesanan_dokumen/view', $data);
 		} else {
-			$cetak 	= $this->pesanan_dokumen_model->get($data['id']);
+			$cetak = $this->pesanan_dokumen_model->get($data['id']);
 
 			$saldo_pelanggan = (int)$this->saldo_user_model
-			->getJumlahSaldo($cetak->idusers);
+				->getJumlahSaldo($cetak->idusers);
 			$biaya_cetak = (int)$data['biaya_cetak'];
 
 			if ($saldo_pelanggan <= $biaya_cetak) {
-		 			$this->message('Saldo pelanggan tidak mencukupi, anda bisa membatalkan proses cetak', 'warning');
-					$this->go('petugas/pesanan_dokumen/view/'.$data['id']);
+				$this->message('Saldo pelanggan tidak mencukupi, anda bisa membatalkan proses cetak', 'warning');
+				$this->go('petugas/pesanan_dokumen/view/' . $data['id']);
 			} else {
 				$update = $this->pesanan_dokumen_model->update($data, $data['id']);
 
 				$data_saldo = array(
-					'id_users' 	 => $cetak->idusers,
-					'nominal' 	 => $data['biaya_cetak'],
-					'status' 	 	 => '1',
-					'keterangan' => 'Melakukan percetakan dengan kode '. $cetak->kode_pengambilan,
+					'id_users' => $cetak->idusers,
+					'nominal' => $data['biaya_cetak'],
+					'status' => '1',
+					'keterangan' => 'Melakukan percetakan dengan kode ' . $cetak->kode_pengambilan,
 				);
 				$this->saldo_user_model->insert($data_saldo);
+
+				$data_saldo_p = array(
+					'id_percetakan' => $cetak->idpercetakan,
+					'nominal' => $data['biaya_cetak'],
+					'status' => '0',
+					'keterangan' => 'Melakukan percetakan dengan kode ' . $cetak->kode_pengambilan,
+				);
+				$this->saldo_percetakan_model->insert($data_saldo_p);
 
 				// kirim notifikasi
 				$token = $this->token_user_model->where('id_users', $cetak->idusers)->get_all();
@@ -152,11 +161,11 @@ class Pesanan_dokumen extends MY_Controller
 					$this->pesanan_dokumen_model->send_notif($value->token, $cetak->id);
 				}
 
-				if ($update == FALSE) {
+				if ($update == false) {
 					echo "ada kesalahan";
 				} else {
-		 			$this->message('Berhasil dikirim', 'success');
-					$this->go('petugas/pesanan_dokumen/view/'.$data['id']);
+					$this->message('Berhasil dikirim', 'success');
+					$this->go('petugas/pesanan_dokumen/view/' . $data['id']);
 				}
 			}
 
