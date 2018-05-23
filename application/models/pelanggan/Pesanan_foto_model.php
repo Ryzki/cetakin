@@ -8,7 +8,10 @@ class Pesanan_foto_model extends MY_Model
 	{
         $this->table = 'pesanan_foto';
         $this->primary_key = 'id'; 
-        $this->protected = array('id');
+		$this->protected = array('id');
+		
+		$this->has_one['relasipercetakan'] = array('Percetakan_model', 'id', 'idpercetakan');
+		$this->has_one['relasiuser'] = array('User_model', 'id', 'idusers');
 
 		parent::__construct();
 	}   
@@ -81,5 +84,48 @@ class Pesanan_foto_model extends MY_Model
             'page' => $this->uri->segment(2), 
         );    
         return $data;
+	}
+
+	public function kode_pengambilan_foto()
+	{
+		$this->db->select('RIGHT(pesanan_foto.kode_pengambilan,3) as kode', FALSE);
+		$this->db->order_by('kode_pengambilan','DESC');
+		$query = $this->db->get('pesanan_foto');
+
+		if($query->num_rows() <> 0) {
+		    $data = $query->row();
+		    $kode = intval($data->kode) + 1;
+		} else {
+		    $kode = 1;
+		}
+
+		$kodemax = str_pad($kode, 3, "0", STR_PAD_LEFT);
+		$kodejadi = "FT-".$kodemax;
+		return $kodejadi;
+	}
+
+	public function send_notif($token, $id_cetak)
+	{
+		$data = array("to" => $token,
+		              "notification" => array( "title" => "Proses Cetak Selesai", "body" => "Segera cek cetakan kamu!","icon" => "icon.png","sound" => "/notif.mp3", "click_action" => site_url('pelanggan/pesanan/view/'.$id_cetak)));
+		$data_string = json_encode($data);
+
+		$headers = array
+		(
+		     'Authorization: key=AAAAV9uIZSE:APA91bEX8s-xecyhAVK67vPDEi-NdURNR73tZljIrFolsD8yjfgt03OzfCX_rgl3MLSXLwpTmXlBV44rQIwGZpl0_vYaRBcMv44lyLXFZRAAWDfS9O78T28vFxK8QwbDg_EDWSLKSxud',
+		     'Content-Type: application/json'
+		);
+
+		$ch = curl_init();
+
+		curl_setopt( $ch,CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send' );
+		curl_setopt( $ch,CURLOPT_POST, true );
+		curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
+		curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+		curl_setopt( $ch,CURLOPT_POSTFIELDS, $data_string);
+
+		$result = curl_exec($ch);
+
+		curl_close ($ch);
 	}
 }

@@ -2,7 +2,8 @@
 
 <div class="col-md-3 p-2">
   <ul class="list-group border border-primary">
-    <a href="{{site_url('pelanggan/pesanan')}}" class="list-group-item list-group-item-action {{($page == 'pesanan')?'active':''}}"><i class="fa fa-fw fa-list-alt"></i> Daftar Pesanan</a>
+    <a href="{{site_url('pelanggan/pesanan')}}" class="list-group-item list-group-item-action {{($page == 'pesanan')?'active':''}}"><i class="fa fa-fw fa-list-alt"></i> Daftar Pesanan Dokumen</a>
+    <a href="{{site_url('pelanggan/pesananft')}}" class="list-group-item list-group-item-action {{($page == 'pesananft')?'active':''}}"><i class="fa fa-fw fa-list-alt"></i> Daftar Pesanan Foto</a>
     <a href="{{site_url('pelanggan/saldo_user')}}" class="list-group-item list-group-item-action {{($page == 'saldo_user')?'active':''}}"><i class="fa fa-fw fa-money"></i> Lihat Saldo</a>
     <a href="{{site_url('pelanggan')}}" class="list-group-item list-group-item-action {{($page == '')?'active':''}}"><i class="fa fa-fw fa-user-circle-o"></i> Profil Saya</a>
     <a href="{{site_url('pelanggan/change_password')}}" class="list-group-item list-group-item-action {{($page == 'change_password')?'active':''}}"><i class="fa fa-fw fa-lock"></i> Ubah Password</a>

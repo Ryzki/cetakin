@@ -57,7 +57,7 @@ class Auth extends MY_Controller {
 			} else if ($user->group_id === "2") {
 				redirect('petugas', 'refresh');
 			} else if ($user->group_id === "3") {
-				redirect('percetakan', 'refresh');
+				redirect('homepage', 'refresh');
 			} else {
 				dump('asd');
 				redirect('auth/logout', 'refresh');
@@ -84,7 +84,7 @@ class Auth extends MY_Controller {
 				} else if ($user->group_id === "2") {
 					redirect('petugas', 'refresh');
 				} else if ($user->group_id === "3") {
-					redirect('percetakan', 'refresh');
+					redirect('homepage', 'refresh');
 				} else {
 				dump('asd');
 					redirect('auth/logout', 'refresh');

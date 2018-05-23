@@ -47,7 +47,7 @@
 
 		.container table { width: 100% !important; border-collapse: collapse; }
 
-		.container .masthead { padding: 80px 0; background: #1A237E; color: white; }
+		.container .masthead { padding: 80px 0; background: #00695c; color: white; }
 
 		.container .masthead h1 { margin: 0 auto !important; max-width: 90%; text-transform: uppercase; }
 
@@ -73,7 +73,7 @@
                 <tr>
                     <td align="center" class="masthead">
 
-                        <img src="http://email.i-cow.id/images/logo.png" alt="" width="300">
+                        <img src="http://cetakin.labkode.org/logo.png" alt="" width="300">
 
                     </td>
                 </tr>
