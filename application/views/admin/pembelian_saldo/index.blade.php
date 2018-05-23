@@ -72,7 +72,7 @@
                   <th>No.</th>
                   <th>Nama Rekening</th>
                   <th>Nomor Rekening</th>
-                  <th>Foto</th>
+                  <th>Bukti</th>
                   <th>Status</th>
                   <th>Aksi</th>
                 </thead>
@@ -89,7 +89,7 @@
                       <td>{{$start++}}. </td>
                       <td>{{$row->nama_rek}}</td>
                       <td>{{$row->no_rek}}</td>
-                      <td>{{$row->foto}}</td>
+                      <td> <a target="_blank" href="{{site_url('uploads/bukti_tf/'.$row->foto)}}" class="btn btn-primary">Lihat</a></td>
                       <td>
                           {{($row->saldo_user->status == '0')?'<span class="label label-primary">Telah Dikonfirmsi</span>':''}}
                           {{($row->saldo_user->status == '1')?'<span class="label label-primary">Telah Dikonfirmsi</span>':''}}

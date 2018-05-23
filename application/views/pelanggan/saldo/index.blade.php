@@ -68,11 +68,23 @@
         </button>
       </div>
       <div class="modal-body">
-        <form action="{{site_url('pelanggan/saldo_user/add')}}" method="post">
+        <form action="{{site_url('pelanggan/saldo_user/add')}}" method="post"enctype="multipart/form-data">
           {{$csrf}}
           <div class="form-group">
             <label for="jumlah">Jumlah Nominal</label>
             <input type="text" class="form-control" name="jumlah" id="jumlah" placeholder="Rp.">
+          </div>
+          <div class="form-group">
+            <label for="nama_rek">Nama Rekening</label>
+            <input type="text" class="form-control" name="nama_rek" id="nama_rek">
+          </div>
+          <div class="form-group">
+            <label for="no_rek">Nomor Rekening</label>
+            <input type="text" class="form-control" name="no_rek" id="no_rek">
+          </div>
+          <div class="form-group">
+            <label for="foto">Bukti</label>
+            <input type="file" class="form-control" name="foto" id="foto">
           </div>
       </div>
       <div class="modal-footer">

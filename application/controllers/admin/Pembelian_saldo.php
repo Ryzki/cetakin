@@ -1,15 +1,15 @@
 <?php
 
 /**
-*
-*/
+ *
+ */
 class Pembelian_saldo extends MY_Controller
 {
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_accessable = TRUE;
+		$this->_accessable = true;
 		$this->load->helper(array('dump', 'number'));
 		$this->load->model('admin/pembelian_saldo_model');
 		$this->load->model('admin/saldo_user_model');
@@ -22,7 +22,7 @@ class Pembelian_saldo extends MY_Controller
 		$config['base_url'] = base_url() . 'admin/pembelian_saldo/index/';
 		// Class bootstrap pagination yang digunakan
 		$config['full_tag_open'] = "<ul class='pagination pagination-sm no-margin pull-right'>";
-		$config['full_tag_close'] ="</ul>";
+		$config['full_tag_close'] = "</ul>";
 		$config['num_tag_open'] = '<li>';
 		$config['num_tag_close'] = '</li>';
 		$config['cur_tag_open'] = "<li class='disabled'><li class='active'><a href='#'>";
@@ -38,12 +38,12 @@ class Pembelian_saldo extends MY_Controller
 		$config['per_page'] = 10;
 
 		$data = $this->pembelian_saldo_model
-		->limit($config['per_page'],$offset=$start)
-		->with_saldo_user()
-		->order_by('created_at','DESC')
-		->get_all();
+			->limit($config['per_page'], $offset = $start)
+			->with_saldo_user()
+			->order_by('created_at', 'DESC')
+			->get_all();
 		$config['total_rows'] = $this->pembelian_saldo_model
-		->count_rows();
+			->count_rows();
 
 		$this->load->library('pagination');
 		$this->pagination->initialize($config);
@@ -71,7 +71,7 @@ class Pembelian_saldo extends MY_Controller
 		$this->render('admin/pembelian_saldo/index', $data);
 	}
 
-	public function verifikasi($id='')
+	public function verifikasi($id = '')
 	{
 		$data['status'] = '0';
 		$this->saldo_user_model->update($data, $id);
@@ -79,14 +79,14 @@ class Pembelian_saldo extends MY_Controller
 	}
 
 
-	public function tolak($id='')
+	public function tolak($id = '')
 	{
 		$data['status'] = '4';
 		$this->saldo_user_model->update($data, $id);
 		$this->go('admin/pembelian_saldo/');
 	}
 
-	public function unverifikasi($id='')
+	public function unverifikasi($id = '')
 	{
 		$data['status'] = '3';
 		$this->saldo_user_model->update($data, $id);
