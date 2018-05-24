@@ -1,3 +1,13 @@
+<?php  
+$user = $this->ion_auth->user()->row(); 
+if($user != null) {
+  if ($user->group_id == 1){
+      redirect('auth/login', 'refresh');
+  } else if ($user->group_id == 2){
+      redirect('auth/login', 'refresh');
+  } 
+}
+?>
 <!DOCTYPE html>
 <html>
   <head>

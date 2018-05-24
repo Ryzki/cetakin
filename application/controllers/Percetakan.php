@@ -52,7 +52,7 @@ class Percetakan extends MY_Controller
 				->where('status_dokumen', '1')
 				->where('status_verifikasi', '1')
 				->get_all();
-			$data['info_harga'] = $this->info_harga_model->where('idpercetakan', $id)->get_all();
+			$data['info_harga'] = $this->info_harga_model->where('idpercetakan', $id)->where('kategori', '0')->get_all();
 
 			$this->generateCsrf();
 			$this->render('percetakan/detail_percetakan_dokumen', $data);
@@ -62,7 +62,7 @@ class Percetakan extends MY_Controller
 				->where('status_foto', '1')
 				->where('status_verifikasi', '1')
 				->get_all();
-			$data['info_harga'] = $this->info_harga_model->where('idpercetakan', $id)->get_all();
+			$data['info_harga'] = $this->info_harga_model->where('idpercetakan', $id)->where('kategori', '1')->get_all();
 			// dump($id);
 
 			$this->generateCsrf();

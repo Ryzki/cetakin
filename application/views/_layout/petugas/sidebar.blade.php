@@ -44,8 +44,9 @@
             <li {{($sub_page=='foto')?'class="active"':''}}><a href="{{site_url('petugas/info_harga/foto')}}"><i class="fa fa-file-image-o"></i> Cetak Foto</a></li>
           </ul>
         </li>
-        <li><a href=""><i class="fa fa-home"></i> <span>Kelola Data Percetakan</span></a></li>
-        <li><a href=""><i class="fa fa-credit-card-alt"></i> <span>Lihat Saldo</span></a></li>
+        <li {{($page=='percetakan')?'class="active"':''}}><a href="{{site_url('petugas/percetakan')}}"><i class="fa fa-home"></i> <span>Kelola Data Percetakan</span></a></li>
+        <li {{($page=='pengaturan')?'class="active"':''}}><a href="{{site_url('petugas/pengaturan')}}"><i class="fa fa-home"></i> <span>Pengaturan</span></a></li>
+        <li {{($page=='saldo_percetakan')?'class="active"':''}}><a href="{{site_url('petugas/saldo_percetakan')}}"><i class="fa fa-credit-card-alt"></i> <span>Lihat Saldo</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->

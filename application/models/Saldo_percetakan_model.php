@@ -79,19 +79,19 @@ class Saldo_percetakan_model extends MY_Model
 		return $data;
 	}
 
-	public function getJumlahSaldo($id_users)
+	public function getJumlahSaldo($id_percetakan)
 	{ 
-		$pemasukan = (int)$this->getJumlahPemasukan($id_users);
-		$pengeluaran = (int)$this->getJumlahPengeluaran($id_users);
+		$pemasukan = (int)$this->getJumlahPemasukan($id_percetakan);
+		$pengeluaran = (int)$this->getJumlahPengeluaran($id_percetakan);
 		$jumlah_saldo = $pemasukan - $pengeluaran;
 
 		return $jumlah_saldo;
 	}
 
-	public function getJumlahPemasukan($id_users)
+	public function getJumlahPemasukan($id_percetakan)
 	{
 		$this->db->select_sum('nominal');
-		$this->db->where('id_users', $id_users);
+		$this->db->where('id_percetakan', $id_percetakan);
 		$this->db->where('status', '0');
 		$query = $this->db->get('saldo_percetakan');
 		if ($query->row()->nominal == NULL){
@@ -101,10 +101,10 @@ class Saldo_percetakan_model extends MY_Model
 		}
 	}
 
-	public function getJumlahPengeluaran($id_users)
+	public function getJumlahPengeluaran($id_percetakan)
 	{
 		$this->db->select_sum('nominal');
-		$this->db->where('id_users', $id_users);
+		$this->db->where('id_percetakan', $id_percetakan);
 		$this->db->where('status', '1');
 		$query = $this->db->get('saldo_percetakan');
 

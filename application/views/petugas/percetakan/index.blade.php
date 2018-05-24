@@ -5,7 +5,7 @@
 @section('content')
   <section class="content-header">
     <h1>
-      Data Percetakan
+      Informasi Percetakan
     </h1>
   </section>
 
@@ -13,10 +13,7 @@
   <section class="content">
 
     <!-- Default box -->
-    <div class="box">
-    <div class="box-header with-border">
-    <h3>Kelola Data</h3>
-    </div>
+    <div class="box"> 
       <div class="box-body">
         <form class="form-horizontal" action="" method="post">
           <div class="form-group">
@@ -48,34 +45,7 @@
             <div class="col-sm-10">
               <textarea name="alamat" class="form-control" id="alamat">lorem</textarea>
             </div>
-          </div>
-          <div class="form-group">
-            <label for="iduser" class="col-sm-2 control-label">Status Dokumen</label>
-            <div class="col-sm-10">
-              <select name="kategori" class="form-control" id="iduser">
-                <option value="0">Tersedia</option>
-                <option value="1">Tidak Tersedia</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="iduser" class="col-sm-2 control-label">Status Foto</label>
-            <div class="col-sm-10">
-              <select name="kategori" class="form-control" id="iduser">
-                <option value="0">Tersedia</option>
-                <option value="1">Tidak Tersedia</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="iduser" class="col-sm-2 control-label">Status Percetakan</label>
-            <div class="col-sm-10">
-              <select name="kategori" class="form-control" id="iduser">
-                <option value="0">Buka</option>
-                <option value="1">Tutup</option>
-              </select>
-            </div>
-          </div>
+          </div> 
           <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
               <button type="submit" class="btn btn-default">Simpan</button>

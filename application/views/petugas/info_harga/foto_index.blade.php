@@ -1,16 +1,16 @@
-@layout('_layout/admin/index')
+@layout('_layout/petugas/index')
 
-@section('title')Data Pembelian Saldo@endsection
+@section('title')Data Info Harga Cetak Foto@endsection
 
 @section('content')
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Data Pembelian Saldo
+        Data Info Harga Cetak Foto
       </h1>
       <ol class="breadcrumb">
-        <li class="active"><i class="fa fa-book"></i> &nbsp Kelola Data</li>
-        <li class="active">Data Pembelian Saldo</li>
+        <li class="active"><i class="fa fa-book"></i> &nbsp Kelola Info Harga</li>
+        <li class="active">Cetak Foto</li>
       </ol>
     </section>
 
@@ -20,6 +20,9 @@
       <div class="box container">
         <div class="row">
           <div class="col-md-6 col-xs-12">
+            <div class="box-header with-border">
+              <a href="{{site_url('petugas/info_harga/foto_add')}}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah Data</a>
+            </div>
           </div>
           <div class="col-md-6 col-xs-12">
             <div class="box-header hee_hidden">
@@ -27,7 +30,7 @@
             </div>
           </div>
         </div>
-        <form class="form-inline" action="{{site_url('admin/'.$page.'/search')}}" method="get">
+        <form class="form-inline" action="{{site_url('petugas/'.$page.'/foto_search')}}" method="get">
         <div class="row">
           <div class="col-lg-6 col-xs-12">
             <div class="box-header with-border">              
@@ -70,11 +73,9 @@
           <table class="table table-hover table-striped">
                 <thead>
                   <th>No.</th>
-                  <th>Nama Rekening</th>
-                  <th>Nomor Rekening</th>
-                  <th>Jumlah Nominal</th>
-                  <th>Bukti</th>
-                  <th>Status</th>
+                  <th>Nama</th>
+                  <th>Harga</th>
+                  <th>Satuan</th>
                   <th>Aksi</th>
                 </thead>
 
@@ -87,24 +88,14 @@
                     <?php $start+= 1 ?>
                     @foreach($tampildata as $row)
                     <tr>
-                      <td>{{$start++}}. </td>
-                      <td>{{$row->nama_rek}}</td>
-                      <td>{{$row->no_rek}}</td>
-                      <td>{{rupiah($row->saldo_user->nominal)}}</td>
-                      <td> <a target="_blank" href="{{site_url('uploads/bukti_tf/'.$row->foto)}}" class="btn btn-primary">Lihat</a></td>
+                      <td>{{$start++}}</td>
+                      <td>{{$row->nama}}</td>
+                      <td>{{$row->harga}}</td>
+                      <td>{{$row->satuan}}</td>
                       <td>
-                          {{($row->saldo_user->status == '0')?'<span class="label label-primary">Telah Dikonfirmsi</span>':''}}
-                          {{($row->saldo_user->status == '1')?'<span class="label label-primary">Telah Dikonfirmsi</span>':''}}
-                          {{($row->saldo_user->status == '3')?'<span class=" label label-warning"> Belum Dikonfirmasi</span>':''}}
-                          {{($row->saldo_user->status == '4')?'<span class="label label-danger">Ditolak</span>':''}}
-                      </td>
-                      <td>
-                        @if ($row->saldo_user->status == '3')
-                          <a href="{{site_url('admin/pembelian_saldo/verifikasi/'.$row->saldo_user->id)}}" class="btn btn-primary" onclick="return confirm('apakah anda yakin')"><i class="fa fa-check-square-o"></i> Konfirmasi</a> 
-                          <a href="{{site_url('admin/pembelian_saldo/tolak/'.$row->saldo_user->id)}}" class="btn btn-danger" onclick="return confirm('apakah anda yakin')"><i class="fa fa-ban"></i> Tolak</a> 
-                        @else
-                          <a href="{{site_url('admin/pembelian_saldo/unverifikasi/'.$row->saldo_user->id)}}" class="btn btn-warning" onclick="return confirm('apakah anda yakin')"><i class="fa fa-check-square-o"></i> Batalkan Konfirmasi</a> 
-                        @endif
+                        <a href="{{site_url('petugas/info_harga/foto_view/'.$row->id)}}" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i> Lihat</a>
+                        <a href="{{site_url('petugas/info_harga/foto_edit/'.$row->id)}}" class="btn btn-warning btn-sm"><i class="fa fa-pencil-square-o"></i> Edit</a>
+                        <a href="{{site_url('petugas/info_harga/foto_delete/'.$row->id)}}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</a>
                       </td>
                     </tr>
                     @endforeach
@@ -119,4 +110,5 @@
 
     </section>
     <!-- /.content -->
+    
 @endsection
