@@ -138,7 +138,8 @@ class Pesanan_dokumen extends MY_Controller
 				$this->go('petugas/pesanan_dokumen/view/' . $data['id']);
 			} else {
 				$update = $this->pesanan_dokumen_model->update($data, $data['id']);
-
+				
+				// pengurangan saldo pelanggan
 				$data_saldo = array(
 					'id_users' => $cetak->idusers,
 					'nominal' => $data['biaya_cetak'],
@@ -146,7 +147,8 @@ class Pesanan_dokumen extends MY_Controller
 					'keterangan' => 'Melakukan percetakan dengan kode ' . $cetak->kode_pengambilan,
 				);
 				$this->saldo_user_model->insert($data_saldo);
-
+				
+				// masukan saldo percetakan
 				$data_saldo_p = array(
 					'id_percetakan' => $cetak->idpercetakan,
 					'nominal' => $data['biaya_cetak'],

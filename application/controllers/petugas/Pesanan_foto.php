@@ -14,6 +14,7 @@ class Pesanan_foto extends MY_Controller
 		$this->load->model('admin/petugas_model');
 		$this->load->model('pelanggan/pesanan_foto_model');
 		$this->load->model('pelanggan/saldo_user_model');
+		$this->load->model('saldo_percetakan_model');
 		$this->load->model('token_user_model');
 	}
 
@@ -145,6 +146,15 @@ class Pesanan_foto extends MY_Controller
 					'keterangan' => 'Melakukan percetakan dengan kode ' . $cetak->kode_pengambilan,
 				);
 				$this->saldo_user_model->insert($data_saldo);
+
+				// masukan saldo percetakan
+				$data_saldo_p = array(
+					'id_percetakan' => $cetak->idpercetakan,
+					'nominal' => $data['biaya_cetak'],
+					'status' => '0',
+					'keterangan' => 'Melakukan percetakan dengan kode ' . $cetak->kode_pengambilan,
+				);
+				$this->saldo_percetakan_model->insert($data_saldo_p);
 
 				// kirim notifikasi
 				$token = $this->token_user_model->where('id_users', $cetak->idusers)->get_all();
