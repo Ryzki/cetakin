@@ -47,9 +47,10 @@ class Pesanan_dokumen extends MY_Controller
 			->where('idpercetakan', $petugas->idpercetakan)
 			->with_relasiuser()
 			->limit($config['per_page'], $offset = $start)
-			->order_by('created_at', 'DESC')
+			->order_by('status', 'ASC')
 			->get_all();
 		$config['total_rows'] = $this->pesanan_dokumen_model
+			->where('idpercetakan', $petugas->idpercetakan)
 			->count_rows();
 
 		$this->load->library('pagination');

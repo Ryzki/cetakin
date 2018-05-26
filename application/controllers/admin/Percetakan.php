@@ -1,16 +1,16 @@
 <?php
 
 /**
-*
-*/
+ *
+ */
 class Percetakan extends MY_Controller
 {
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_accessable = TRUE;
-		$this->load->helper(array('dump','utility'));
+		$this->_accessable = true;
+		$this->load->helper(array('dump', 'utility'));
 		$this->load->model('admin/percetakan_model');
 		$this->load->model('admin/petugas_model');
 		$this->load->model('admin/user_model');
@@ -19,11 +19,11 @@ class Percetakan extends MY_Controller
 	public function index()
 	{
 		// pagination
-        $start = $this->uri->segment(4, 0);
+		$start = $this->uri->segment(4, 0);
 		$config['base_url'] = base_url() . 'admin/percetakan/index/';
 		// Class bootstrap pagination yang digunakan
 		$config['full_tag_open'] = "<ul class='pagination pagination-sm no-margin pull-right'>";
-		$config['full_tag_close'] ="</ul>";
+		$config['full_tag_close'] = "</ul>";
 		$config['num_tag_open'] = '<li>';
 		$config['num_tag_close'] = '</li>';
 		$config['cur_tag_open'] = "<li class='disabled'><li class='active'><a href='#'>";
@@ -36,39 +36,39 @@ class Percetakan extends MY_Controller
 		$config['first_tagl_close'] = "</li>";
 		$config['last_tag_open'] = "<li>";
 		$config['last_tagl_close'] = "</li>";
-        $config['per_page'] = 2;
+		$config['per_page'] = 2;
 
 		$data = $this->percetakan_model
-            ->limit($config['per_page'],$offset=$start)
+			->limit($config['per_page'], $offset = $start)
 			->get_all();
-   	 	$config['total_rows'] = $this->percetakan_model
-		    ->count_rows();
+		$config['total_rows'] = $this->percetakan_model
+			->count_rows();
 
-        $this->load->library('pagination');
-        $this->pagination->initialize($config);
+		$this->load->library('pagination');
+		$this->pagination->initialize($config);
 
-        $data = array(
-        	'tampildata' => $data,
-            'pagination' => $this->pagination->create_links(),
-            'total_rows' => $config['total_rows'],
-            'start' => $start,
-            'page' => $this->uri->segment(2),
-        );
+		$data = array(
+			'tampildata' => $data,
+			'pagination' => $this->pagination->create_links(),
+			'total_rows' => $config['total_rows'],
+			'start' => $start,
+			'page' => $this->uri->segment(2),
+		);
 
-        $this->generateCsrf();
+		$this->generateCsrf();
 
 		$this->render('admin/percetakan/index', $data);
 	}
 
 	public function search()
-    {
-    	$search_data = $this->input->get();
+	{
+		$search_data = $this->input->get();
 
-        $data = $this->Percetakan_model->search($search_data);
+		$data = $this->Percetakan_model->search($search_data);
 
-        $this->generateCsrf();
+		$this->generateCsrf();
 		$this->render('admin/percetakan/index', $data);
-    }
+	}
 
 	public function add()
 	{
@@ -85,14 +85,14 @@ class Percetakan extends MY_Controller
 		$this->form_validation->set_rules('alamat', 'Alamat', 'trim|required|min_length[3]|max_length[25]');
 		// end form validation
 
-		if ($this->form_validation->run() == FALSE) {
+		if ($this->form_validation->run() == false) {
 
 			$this->generateCsrf();
 			$this->render('admin/percetakan/add');
 		} else {
 			$data = $this->input->post();
 			$insert = $this->percetakan_model->insert($data);
-			if ($insert == FALSE) {
+			if ($insert == false) {
 				echo "ada kesalahan";
 			} else {
 				$this->go('admin/percetakan'); //redirect ke percetakan
@@ -117,7 +117,7 @@ class Percetakan extends MY_Controller
 		$this->form_validation->set_rules('alamat', 'Alamat', 'trim|required|min_length[3]|max_length[25]');
 		// end form validation
 
-		if ($this->form_validation->run() == FALSE) {
+		if ($this->form_validation->run() == false) {
 			$data['data'] = $this->input->post();
 
 			$this->generateCsrf();
@@ -125,11 +125,11 @@ class Percetakan extends MY_Controller
 		} else {
 			$data = $this->input->post();
 			if (!empty($_FILES['foto']['tmp_name'])) {
-	            $file_name    = $this->upload_foto();
-	            $data['foto'] = $file_name;
-	        }
+				$file_name = $this->upload_foto();
+				$data['foto'] = $file_name;
+			}
 			$insert = $this->percetakan_model->update($data, $this->input->post('id'));
-			if ($insert == FALSE) {
+			if ($insert == false) {
 				echo "ada kesalahan";
 			} else {
 				$this->go('admin/percetakan'); //redirect ke percetakan
@@ -141,7 +141,7 @@ class Percetakan extends MY_Controller
 	public function view($id)
 	{
 		$data['data'] = $this->percetakan_model->get($id);
-		$data['petugas'] = $this->petugas_model->where('idpercetakan',$id)
+		$data['petugas'] = $this->petugas_model->where('idpercetakan', $id)
 			->fields('id,idusers,idpercetakan') //manggil field tabel petugas yang akan ditampilkan
 			->with_relasiuser('fields:first_name,email,phone,active') //manggil field tabel user yang akan ditampilkan
 			->get_all();
@@ -149,7 +149,7 @@ class Percetakan extends MY_Controller
 		$this->render('admin/percetakan/view', $data);
 	}
 
-	public function delete($id='')
+	public function delete($id = '')
 	{
 		if (!isset($id)) {
 			show_404();
@@ -159,30 +159,31 @@ class Percetakan extends MY_Controller
 		$this->go('admin/percetakan');
 	}
 
-    public function upload_foto(){
-        $set_name   = fileName(1, 'CTK','',8);
-        $path       = $_FILES['foto']['name'];
-        $extension  = ".".pathinfo($path, PATHINFO_EXTENSION);
+	public function upload_foto()
+	{
+		$set_name = fileName(1, 'CTK', '', 8);
+		$path = $_FILES['foto']['name'];
+		$extension = "." . pathinfo($path, PATHINFO_EXTENSION);
 
-        $config['upload_path']          = './uploads/percetakan/';
-        $config['allowed_types']        = 'gif|jpg|jpeg|png';
-        $config['max_size']             = 9024;
-        $config['file_name']            = $set_name.$extension;
-        $this->load->library('upload', $config);
+		$config['upload_path'] = './uploads/percetakan/';
+		$config['allowed_types'] = 'gif|jpg|jpeg|png';
+		$config['max_size'] = 9024;
+		$config['file_name'] = $set_name . $extension;
+		$this->load->library('upload', $config);
           // proses upload
-        $upload = $this->upload->do_upload('foto');
+		$upload = $this->upload->do_upload('foto');
 
-        if ($upload == FALSE) {
-            dump('Gambar gagal diupload! Periksa gambar');
-        }
+		if ($upload == false) {
+			dump('Gambar gagal diupload! Periksa gambar');
+		}
 
-        $upload = $this->upload->data();
+		$upload = $this->upload->data();
 
-        return $upload['file_name'];
-    }
+		return $upload['file_name'];
+	}
 
     // function petugas
-    public function add_petugas()
+	public function add_petugas()
 	{
 		$this->generateCsrf();
 		$this->render('admin/percetakan/add_petugas');
@@ -192,17 +193,21 @@ class Percetakan extends MY_Controller
 	{
 		// form validation
 		$this->form_validation->set_rules('first_name', 'Nama', 'trim|required|min_length[3]|max_length[25]');
-		$this->form_validation->set_rules('email', 'Email', 'trim|required|min_length[3]|max_length[25]|is_unique[users.email]',
-        array(
-                'is_unique'     => 'Email '.$this->input->post('email').' sudah ada'
-        ));
+		$this->form_validation->set_rules(
+			'email',
+			'Email',
+			'trim|required|min_length[3]|max_length[25]|is_unique[users.email]',
+			array(
+				'is_unique' => 'Email ' . $this->input->post('email') . ' sudah ada'
+			)
+		);
 		$this->form_validation->set_rules('phone', 'Nomor Telp', 'trim|required|min_length[3]|max_length[25]');
 		$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[6]|max_length[12]');
 		$this->form_validation->set_rules('reenter_password', 'Konfirmasi Password', 'trim|required|matches[password]');
 
 		// end form validation
 
-		if ($this->form_validation->run() == FALSE) {
+		if ($this->form_validation->run() == false) {
 
 			$this->generateCsrf();
 			$this->render('admin/percetakan/add_petugas');
@@ -215,7 +220,7 @@ class Percetakan extends MY_Controller
 			$data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
 			$data['ip_address'] = $this->input->ip_address();
 
-			$insert_user  = $this->user_model->insert($data);
+			$insert_user = $this->user_model->insert($data);
 
 			$data_petugas = array(
 				'idusers' => $insert_user,
@@ -223,16 +228,16 @@ class Percetakan extends MY_Controller
 			);
 			$insert_petugas = $this->petugas_model->insert($data_petugas);
 
-			if ($insert_petugas == FALSE) {
+			if ($insert_petugas == false) {
 				echo "ada kesalahan";
 			} else {
-				$this->go('admin/percetakan/view/'.$id_percetakan); //redirect ke percetakan
+				$this->go('admin/percetakan/view/' . $id_percetakan); //redirect ke percetakan
 			}
 		}
 
 	}
 
-	public function delete_petugas($id='', $id_percetakan='')
+	public function delete_petugas($id = '', $id_percetakan = '')
 	{
 		if (!isset($id)) {
 			show_404();
@@ -240,10 +245,10 @@ class Percetakan extends MY_Controller
 
 		$this->db->delete('petugas', array('idusers' => $id));
 		$this->user_model->delete($id);
-		$this->go('admin/percetakan/view/'.$id_percetakan);
+		$this->go('admin/percetakan/view/' . $id_percetakan);
 	}
 
-	public function edit_petugas($id='', $id_percetakan='')
+	public function edit_petugas($id = '', $id_percetakan = '')
 	{
 		$data['data'] = $this->user_model->get($id);
 
@@ -261,7 +266,7 @@ class Percetakan extends MY_Controller
 
 		// end form validation
 
-		if ($this->form_validation->run() == FALSE) {
+		if ($this->form_validation->run() == false) {
 			$data['data'] = (object)$this->input->post();
 
 			$this->generateCsrf();
@@ -274,41 +279,41 @@ class Percetakan extends MY_Controller
 
 			if (!empty($data['password'])) {
 				$data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
-			} 
+			}
 
 			$data['ip_address'] = $this->input->ip_address();
 
-			$insert_user  = $this->user_model->update($data,$this->input->post('id'));
+			$insert_user = $this->user_model->update($data, $this->input->post('id'));
 
-			if ($insert_user == FALSE) {
+			if ($insert_user == false) {
 				echo "ada kesalahan";
 			} else {
-				$this->go('admin/percetakan/view/'.$id_percetakan); //redirect ke percetakan
+				$this->go('admin/percetakan/view/' . $id_percetakan); //redirect ke percetakan
 			}
 		}
 
 	}
 
-	public function verifikasi($id='')
+	public function verifikasi($id = '')
 	{
 		$data['status_verifikasi'] = '1';
 		$this->percetakan_model->update($data, $id);
-		$this->go('admin/percetakan/view/'.$id);
+		$this->go('admin/percetakan/view/' . $id);
 	}
 
 
-	public function tolak($id='')
+	public function tolak($id = '')
 	{
 		$data['status_verifikasi'] = '2';
 		$this->percetakan_model->update($data, $id);
-		$this->go('admin/percetakan/view/'.$id);
+		$this->go('admin/percetakan/view/' . $id);
 	}
 
 
-	public function unverifikasi($id='')
+	public function unverifikasi($id = '')
 	{
 		$data['status_verifikasi'] = '0';
 		$this->percetakan_model->update($data, $id);
-		$this->go('admin/percetakan/view/'.$id);
+		$this->go('admin/percetakan/view/' . $id);
 	}
 }

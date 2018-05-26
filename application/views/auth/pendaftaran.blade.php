@@ -5,7 +5,7 @@
 @section('style')
 <style>
 .bg {
-  background-image: url({{site_url('assets/image/bg-regis.jpg')}});
+    background-image: url(<?php echo site_url('assets/image/bg-regis.jpg');?>);
 
     /* Create the parallax scrolling effect */
     background-attachment: fixed;
@@ -14,7 +14,7 @@
     background-size: cover;
 
 }
-</style>
+</style> 
 @endsection
 
 @section('content')

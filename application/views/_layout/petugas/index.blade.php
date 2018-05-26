@@ -42,7 +42,11 @@ if ($user->group_id == 1){
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+  @yield('style')
+
 </head>
+
 <body class="hold-transition skin-blue sidebar-mini">
 <!-- Site wrapper -->
 <div class="wrapper">
@@ -88,6 +92,10 @@ if ($user->group_id == 1){
 <script src="{{base_url()}}assets/admin/dist/js/demo.js"></script>
 <!-- Sweet Alert-->
 <script src="{{base_url()}}assets/vendor/sweetalert/sweetalert.min.js"></script>
+
+<script src="{{base_url('assets/vendor/jquery-loading/')}}dist/loadingoverlay.min.js"></script>
+
+@yield('script')
 
 <script>
   $(document).ready(function () {

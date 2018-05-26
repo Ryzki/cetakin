@@ -3,7 +3,7 @@
 /**
 * 
 */
-class Homepage extends MY_Controller
+class About extends MY_Controller
 {
 	
 	public function __construct()
@@ -16,7 +16,7 @@ class Homepage extends MY_Controller
 
 	public function index()
 	{
-		dump('ini beranda');
+		$this->render('about');
 	}
 
 }
