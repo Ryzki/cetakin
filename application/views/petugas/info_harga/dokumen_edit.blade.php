@@ -41,6 +41,18 @@
         {{$csrf}}
         {{form_hidden('id', $data->id);}}
           <div class="form-group">
+            <label for="idklasifikasi" class="col-sm-2 control-label">Klasifikasi Info Harga</label>
+            <div class="col-sm-10">
+              <select name="idklasifikasi" id="idklasifikasi" class="form-control">
+                <option value="">- Klasifikasi Info Harga -</option>
+
+                @foreach ($kategori_info as $value)
+                  <option {{($data->idklasifikasi == $value->id)?'selected':''}} value="{{$value->id}}">{{$value->nama}}</option>
+                @endforeach
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
             <label for="nama" class="col-sm-2 control-label">Nama</label>
             <div class="col-sm-10">
               <input type="text" name="nama" class="form-control" value="{{$data->nama}}" id="nama" placeholder="Nama">

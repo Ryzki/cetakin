@@ -84,10 +84,10 @@ class Pesanan_dokumen_model extends MY_Model
 		return $data;
 	}
 
-	public function kode_pengambilan_dokumen()
+	public function generateKodeCetak()
 	{
-		$this->db->select('RIGHT(pesanan_dokumen.kode_pengambilan,3) as kode', false);
-		$this->db->order_by('kode_pengambilan', 'DESC');
+		$this->db->select('RIGHT(pesanan_dokumen.kode_cetak,3) as kode', false);
+		$this->db->order_by('kode_cetak', 'DESC');
 		$query = $this->db->get('pesanan_dokumen');
 
 		if ($query->num_rows() <> 0) {

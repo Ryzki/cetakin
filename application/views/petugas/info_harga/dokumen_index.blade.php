@@ -73,7 +73,8 @@
           <table class="table table-hover table-striped">
                 <thead>
                   <th>No.</th>
-                  <th>Nama</th>
+                  <th>Klasifikasi</th>
+                  <th style="width: 25%">Nama</th>
                   <th>Harga</th>
                   <th>Satuan</th>
                   <th>Aksi</th>
@@ -88,12 +89,12 @@
                     <?php $start+= 1 ?>
                     @foreach($tampildata as $row)
                     <tr>
-                      <td>{{$start++}}</td>
+                      <td>{{$start++}}. </td>
+                      <td>{{$row->klasifikasi->nama}}</td>
                       <td>{{$row->nama}}</td>
-                      <td>{{$row->harga}}</td>
+                      <td>{{rupiah($row->harga)}}</td>
                       <td>{{$row->satuan}}</td>
-                      <td>
-                        <a href="{{site_url('petugas/info_harga/dokumen_view/'.$row->id)}}" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i> Lihat</a>
+                      <td> 
                         <a href="{{site_url('petugas/info_harga/dokumen_edit/'.$row->id)}}" class="btn btn-warning btn-sm"><i class="fa fa-pencil-square-o"></i> Edit</a>
                         <a href="{{site_url('petugas/info_harga/dokumen_delete/'.$row->id)}}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</a>
                       </td>

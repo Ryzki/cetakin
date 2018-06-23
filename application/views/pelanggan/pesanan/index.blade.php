@@ -36,7 +36,7 @@
             <tr>
               <th>{{$start++}}</th>
               <td>{{$row->relasipercetakan->nama}}</td>
-              <td>{{$row->kode_pengambilan}}</td>
+              <td>{{$row->kode_cetak}}</td>
               <td>{{dateFormat(3, $row->created_at)}}</td>
               <td>
                 {{($row->status == '0')?'<span class="badge badge-warning">Belum di Proses</span>':''}}

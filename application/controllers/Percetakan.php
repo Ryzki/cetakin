@@ -15,6 +15,7 @@ class Percetakan extends MY_Controller
 		$this->load->model('pelanggan/pesanan_dokumen_model');
 		$this->load->model('pelanggan/pesanan_foto_model');
 		$this->load->model('petugas/info_harga_model');
+		$this->load->model('pelanggan/saldo_user_model');
 		$this->slug_config($this->percetakan_model->table, 'nama');
 	}
 
@@ -44,6 +45,7 @@ class Percetakan extends MY_Controller
 
 	public function detail($id)
 	{
+		$user = $this->ion_auth->user()->row();
 		$kategori = $this->uri->segment(4);
 
 		if ($kategori == 'dokumen') {
@@ -54,9 +56,21 @@ class Percetakan extends MY_Controller
 				->get_all();
 			$data['info_harga'] = $this->info_harga_model->where('idpercetakan', $id)->where('kategori', '0')->get_all();
 
+			// form
+			$data['jenis_cetak'] = $this->info_harga_model->where('idpercetakan', $id)->where('idklasifikasi', 1)->get_all();
+			$data['jumlah_sisi'] = $this->info_harga_model->where('idpercetakan', $id)->where('idklasifikasi', 2)->get_all();
+			$data['status_jilid'] = $this->info_harga_model->where('idpercetakan', $id)->where('idklasifikasi', 3)->get_all();
+
+			// Ambil data saldo pelanggan 
+			if (!empty($user)) {
+				$data['saldo_pelanggan'] = $this->saldo_user_model->getJumlahSaldo($user->id); 
+			} else {
+				$data['saldo_pelanggan'] = '';
+			}
+
 			$this->generateCsrf();
 			$this->render('percetakan/detail_percetakan_dokumen', $data);
-		} else {
+		} else { // foto
 			$data['data'] = $this->percetakan_model->get($id);
 			$data['percetakan_lainnya'] = $this->percetakan_model
 				->where('status_foto', '1')
@@ -150,11 +164,10 @@ class Percetakan extends MY_Controller
 
 	public function cetak()
 	{
-		 // form validation
-		$this->form_validation->set_rules('jenis_cetak', 'Jenis Cetak', 'trim|required|min_length[1]|max_length[25]');
-		$this->form_validation->set_rules('jumlah_sisi', 'Jumlah Sisi', 'trim|required|min_length[1]|max_length[25]');
-		$this->form_validation->set_rules('jumlah_copy', 'Jumlah Copy', 'trim|required|min_length[1]|max_length[25]');
-		$this->form_validation->set_rules('catatan', 'catatan', 'trim|required|min_length[0]|max_length[200]');
+		 // form validation 
+		$this->form_validation->set_rules('jumlah_lembar', 'Jumlah Lembar', 'trim|required|min_length[1]|max_length[3]');
+		$this->form_validation->set_rules('jumlah_copy', 'Jumlah Copy', 'trim|required|min_length[1]|max_length[3]');
+		$this->form_validation->set_rules('catatan', 'catatan', 'trim|required|min_length[0]|max_length[255]');
 		 // end form validation
 
 		if ($this->form_validation->run() == false) {
@@ -162,7 +175,7 @@ class Percetakan extends MY_Controller
 			$data['data'] = $this->percetakan_model->get($this->input->post('idpercetakan'));
 			$data['percetakan_lainnya'] = $this->percetakan_model->where('status_dokumen', '1')->get_all();
 			 // dump($id);
-
+			 
 			$this->generateCsrf();
 			$this->render('percetakan/detail_percetakan', $data);
 		} else {
@@ -170,18 +183,18 @@ class Percetakan extends MY_Controller
 
 			$data = $this->input->post();
 			$data['idusers'] = $user->id;
-			$data['kode_pengambilan'] = $this->pesanan_dokumen_model->kode_pengambilan_dokumen();
+			$data['kode_cetak'] = $this->pesanan_dokumen_model->generateKodeCetak();
 
-			if (!empty($_FILES['file']['tmp_name'])) {
+			if (!empty($_FILES['file'])) {
 				$file_name = $this->upload_file();
 				$data['file'] = $file_name;
-			}
+			} 
 
 			$insert = $this->pesanan_dokumen_model->insert($data);
 			if ($insert == false) {
 				echo "ada kesalahan";
 			} else {
-				$this->go('pelanggan/pesanan'); //redirect ke percetakan
+				$this->go('pelanggan/pesanan'); 
 			}
 		}
 
@@ -219,7 +232,7 @@ class Percetakan extends MY_Controller
 			if ($insert == false) {
 				echo "ada kesalahan";
 			} else {
-				$this->go('pelanggan/pesananft');  
+				$this->go('pelanggan/pesananft');
 			}
 		}
 
@@ -233,7 +246,7 @@ class Percetakan extends MY_Controller
 
 		$config['upload_path'] = './uploads/percetakan/file/';
 		$config['allowed_types'] = 'pdf|doc|docx|xls|xlsx';
-		$config['max_size'] = 15024;
+		$config['max_size'] = 150024;
 		$config['file_name'] = $set_name . $extension;
 		$this->load->library('upload', $config);
           // proses upload
@@ -271,5 +284,37 @@ class Percetakan extends MY_Controller
 		$upload = $this->upload->data();
 
 		return $upload['file_name'];
+	}
+
+	// DIBAWAH INI FUNGSI - FUNGSI AJAX
+	public function kalkulasi_biaya()
+	{
+		$idjeniscetak = $this->input->post('idjeniscetak');
+		$idjumlahsisi = $this->input->post('idjumlahsisi');
+		$idstatusjilid = $this->input->post('idstatusjilid');
+		$jumlah_lembar = (int)$this->input->post('jumlah_lembar');
+		$jumlah_copy = (int)$this->input->post('jumlah_copy'); 
+
+		// cek biaya jenis cetak
+		$jeniscetak = $this->info_harga_model
+			->where('id', $idjeniscetak)
+			->get();
+		// cek biaya jenis cetak
+		$jumlahsisi = $this->info_harga_model
+			->where('id', $idjumlahsisi)
+			->get();
+		// cek biaya jenis cetak
+		$statusjilid = $this->info_harga_model
+			->where('id', $idstatusjilid)
+			->get();
+		
+		$biaya_jeniscetak  = (int)$jeniscetak->harga;
+		$biaya_jumlahsisi  = (int)$jumlahsisi->harga;
+		$biaya_statusjilid = (int)$statusjilid->harga;
+
+		$biaya_sementara = ($biaya_jeniscetak + $biaya_jumlahsisi) * $jumlah_lembar + $biaya_statusjilid;
+		$biaya = ($biaya_sementara * $jumlah_copy);
+
+		echo $biaya;
 	}
 }

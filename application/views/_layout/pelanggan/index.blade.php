@@ -1,4 +1,10 @@
 <?php  
+if (!$this->ion_auth->logged_in())
+{
+  // redirect them to the login page
+  redirect('auth/login', 'refresh');
+} 
+
 $user = $this->ion_auth->user()->row(); 
 if($user != null) {
   if ($user->group_id == 1){

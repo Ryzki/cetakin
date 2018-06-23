@@ -19,23 +19,33 @@
 					<table class="table table-striped">
 						<tr>
 							<td style="width: 40%">Nama Percetakan</td>
-							<td>??</td>
+							<td>{{$percetakan->nama}} {{$percetakan->kecamatan->name}}, {{$percetakan->kabupaten->name}} </td>
 						</tr>
 						<tr>
 							<td>Kode Pengambilan</td>
-							<td>{{$data->kode_pengambilan}}</td>
+							<td>{{$data->kode_cetak}}</td>
 						</tr>
 						<tr>
 							<td>Jenis Cetak</td>
 							<td>
-								{{($data->jenis_cetak == '0')?'Normal':''}}
-								{{($data->jenis_cetak == '1')?'FC':''}}
-								{{($data->jenis_cetak == '2')?'High Quality':''}}
+								{{$jenis_cetak->nama}} {{rupiah($jenis_cetak->harga)}} / {{$jenis_cetak->satuan}}
 							</td>
 						</tr>
 						<tr>
 							<td>Jumlah Sisi</td>
-							<td>{{($data->jumlah_sisi == '0')?'1 Sisi':'2 Sisi'}}</td>
+							<td>
+								{{$jumlah_sisi->nama}} {{rupiah($jumlah_sisi->harga)}} / {{$jumlah_sisi->satuan}}
+							</td>
+						</tr>
+						<tr>
+							<td>Status Jilid</td>
+							<td>
+								{{$jumlah_status_jilid->nama}} {{rupiah($jumlah_status_jilid->harga)}} / {{$jumlah_status_jilid->satuan}}
+							</td>
+						</tr> 
+						<tr>
+							<td>Jumlah Lembar</td>
+							<td>{{$data->jumlah_lembar}} Lembar</td>
 						</tr>
 						<tr>
 							<td>Jumlah Copy</td>
