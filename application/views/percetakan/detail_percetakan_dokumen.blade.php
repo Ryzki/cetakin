@@ -110,6 +110,9 @@
                     <label for="catatan">Catatan</label>
                     <textarea name="catatan" id="catatan" class="form-control" rows="7" cols="90" placeholder="Masukan Detail mengenai cetakan kamu. Contoh : Halaman yang di cetak, Penjilidan, tebal kertas, dll." required>{{set_value('catatan')}}</textarea>
                   </div>
+
+                  <input type="hidden" name="biaya_cetak" id="perkiraan_biaya">
+
                   <div align="center">
                     <a class="btn btn-secondary text-white" id="btn-kalkulasi"><i class="fa fa-print"></i> Kalkulasi Biaya</a>
                   </div> 
@@ -247,8 +250,8 @@
               url  : "<?php echo base_url('percetakan/kalkulasi_biaya')?>",
               dataType : "JSON",
               data : {idjeniscetak:idjeniscetak , idjumlahsisi:idjumlahsisi, idstatusjilid:idstatusjilid, jumlah_lembar:jumlah_lembar,  jumlah_copy:jumlah_copy},
-              success: function(data){    
-                console.log(data); 
+              success: function(data){     
+                $('#perkiraan_biaya').val(data);
                 
                 $("#biaya").text(toRp(data)); 
                 

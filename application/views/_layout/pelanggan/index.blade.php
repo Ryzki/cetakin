@@ -1,8 +1,7 @@
 <?php  
 if (!$this->ion_auth->logged_in())
 {
-  // redirect them to the login page
-  redirect('auth/login', 'refresh');
+  // redirect them to the login page 
 } 
 
 $user = $this->ion_auth->user()->row(); 
