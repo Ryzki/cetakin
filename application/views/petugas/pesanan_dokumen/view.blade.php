@@ -122,7 +122,7 @@
 
                   <div class="form-group">
                     <label for="biaya_cetak">Biaya Cetak</label>
-                    <input value="{{set_value('biaya_cetak')}}" type="text" name="biaya_cetak" class="form-control" id="biaya_cetak" placeholder="Jumlah Biaya">
+                    <input value="{{$data->biaya_cetak}}" type="text" name="biaya_cetak" class="form-control" id="biaya_cetak" placeholder="Jumlah Biaya">
                   </div>
                   <div class="form-group">
                     <label for="catatan_percetakan">Catatan</label>
