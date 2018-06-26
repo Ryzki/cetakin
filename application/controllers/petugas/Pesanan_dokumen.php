@@ -14,6 +14,7 @@ class Pesanan_dokumen extends MY_Controller
 		$this->load->model('admin/petugas_model');
 		$this->load->model('pelanggan/pesanan_dokumen_model');
 		$this->load->model('pelanggan/saldo_user_model');
+		$this->load->model('petugas/info_harga_model');
 		$this->load->model('saldo_percetakan_model');
 		$this->load->model('token_user_model');
 	}
@@ -47,10 +48,9 @@ class Pesanan_dokumen extends MY_Controller
 			->where('idpercetakan', $petugas->idpercetakan)
 			->with_relasiuser()
 			->limit($config['per_page'], $offset = $start)
-			->order_by('status', 'ASC')
+			->order_by('created_at', 'DESC')
 			->get_all();
 		$config['total_rows'] = $this->pesanan_dokumen_model
-			->where('idpercetakan', $petugas->idpercetakan)
 			->count_rows();
 
 		$this->load->library('pagination');
@@ -76,6 +76,9 @@ class Pesanan_dokumen extends MY_Controller
 			->get($id);
 		$data['saldo_pelanggan'] = $this->saldo_user_model
 			->getJumlahSaldo($data['data']->idusers);
+		$data['jenis_cetak'] = $this->info_harga_model->get($data['data']->idjeniscetak);
+		$data['jumlah_sisi'] = $this->info_harga_model->get($data['data']->idjumlahsisi);
+		$data['jumlah_status_jilid'] = $this->info_harga_model->get($data['data']->idstatusjilid);
 
 		$this->generateCsrf();
 		$this->render('petugas/pesanan_dokumen/view', $data);

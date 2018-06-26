@@ -39,14 +39,26 @@
           </div>
           <form class="form-horizontal" action="{{site_url('petugas/info_harga/dokumen_save')}}" method="post">
           {{$csrf}}
+          
+            <div class="form-group">
+              <label for="idklasifikasi" class="col-sm-2 control-label">Klasifikasi Info Harga</label>
+              <div class="col-sm-10">
+                <select required name="idklasifikasi" id="idklasifikasi" class="form-control">
+                  <option value="">- Klasifikasi Info Harga -</option>
 
-          {{form_hidden('idusers', '$data');}}
+                  @foreach ($kategori_info as $value)
+                    <option {{(set_value('idklasifikasi') == $value->id)?'selected':''}} value="{{$value->id}}">{{$value->nama}}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
             <div class="form-group">
               <label for="nama" class="col-sm-2 control-label">Nama</label>
               <div class="col-sm-10">
                 <input type="text" name="nama" class="form-control" value="{{set_value('nama')}}" id="nama" placeholder="Nama">
               </div>
             </div>
+
             <div class="form-group">
               <label for="harga" class="col-sm-2 control-label">Harga</label>
               <div class="col-sm-10">

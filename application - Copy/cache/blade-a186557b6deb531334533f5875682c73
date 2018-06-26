@@ -1,0 +1,12 @@
+a:3:{s:4:"time";i:1529890801;s:3:"ttl";i:3600;s:4:"data";s:417:"<?php $user = $this->ion_auth->user()->row(); ?>
+
+<div class="text-center opaque-overlay bg-light">
+	<div class="pl-3 py-4">
+	  <div class="row">
+	    <div class="col-md-12 text-dark">
+	      <h1 style="margin-bottom: -5px" class="text-left display-5"><i class="fa fa-fw fa-user-circle-o" style="color: grey; font-size: 60px"></i> <?php echo $user->first_name; ?></h1>
+	    </div>
+	  </div>
+	</div>
+</div>
+";}

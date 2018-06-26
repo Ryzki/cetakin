@@ -1,10 +1,10 @@
 @layout('_layout/pelanggan/index')
 
-@section('title')Detail Percetakan@endsection
+@section('title')Detail Percetakan @endsection
 
 @section('content')
 <div class="text-left opaque-overlay bg-light">
-    <div class="container py-4">
+    <div class="py-4 px-3">
       <div class="row">
         <div class="col-md-12 text-dark">
           <h1 style="margin-bottom: 5px" class="text-left display-5"><span class="badge badge-primary">BUKA</span> {{$data->nama}}</h1>
@@ -15,7 +15,7 @@
   </div>
 
   <div class="py-3">
-    <div class="container">
+    <div class="px-3">
       <div class="row">
         <div class="col-md-3">
           <div class="card">
@@ -65,36 +65,76 @@
                   {{form_hidden('idpercetakan', $data->id);}}
 
                   <div class="form-group">
-                    <label for="jenis_cetak">Jenis Cetak</label>
-                    <select name="jenis_cetak" id="jenis_cetak" class="form-control">
-                      <option value="">-Jenis Cetak-</option>
-                      <option {{(set_value('jenis_cetak')=='0')?'selected':''}} value="0">Normal (Berwarna dan Hitam Putih)</option>
-                      <option {{(set_value('jenis_cetak')=='1')?'selected':''}} value="1">Hitam Putih</option>
+                    <label for="idjeniscetak">Ukuran Kertas / Jenis Cetak</label>
+                    <select name="idjeniscetak" id="idjeniscetak" class="form-control" required>
+                      <option value="">-Ukuran Kertas / Jenis Cetak-</option>
+                      
+                      @foreach ($jenis_cetak as $value) 
+                        <option {{(set_value('idjeniscetak')==$value->id)?'selected':''}} value="{{$value->id}}">{{$value->nama}}</option>
+                      @endforeach 
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="jumlah_sisi">Jumlah Sisi</label>
-                    <select name="jumlah_sisi" id="jumlah_sisi" class="form-control">
+                    <label for="idjumlahsisi">Jumlah Sisi</label>
+                    <select name="idjumlahsisi" id="idjumlahsisi" class="form-control" required>
                       <option value="">-Jumlah Sisi-</option>
-                      <option {{(set_value('jumlah_sisi')=='0')?'selected':''}} value="0">1 Sisi</option>
-                      <option {{(set_value('jumlah_sisi')=='0')?'selected':''}} value="1">2 Sisi (bolak-balik)</option>
+                      
+                      @foreach ($jumlah_sisi as $value) 
+                        <option {{(set_value('idjumlahsisi')==$value->id)?'selected':''}} value="{{$value->id}}">{{$value->nama}}</option>
+                      @endforeach 
                     </select>
+                  </div> 
+                  <div class="form-group">
+                    <label for="idstatusjilid">Status Jilid</label>
+                    <select name="idstatusjilid" id="idstatusjilid" class="form-control" required>
+                      <option value="">-Status Jilid-</option>
+                      
+                      @foreach ($status_jilid as $value) 
+                        <option {{(set_value('idstatusjilid')==$value->id)?'selected':''}} value="{{$value->id}}">{{$value->nama}}</option>
+                      @endforeach 
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="jumlah_lembar">Jumlah Lembar</label>
+                    <input name="jumlah_lembar" type="number" class="form-control" id="jumlah_lembar" value="{{set_value('jumlah_lembar')}}" required>
                   </div>
                   <div class="form-group">
                     <label for="jumlah_copy">Jumlah Copy</label>
-                    <input name="jumlah_copy" type="number" class="form-control" id="jumlah_copy" value="{{set_value('jumlah_copy')}}">
+                    <input name="jumlah_copy" type="number" class="form-control" id="jumlah_copy" value="{{set_value('jumlah_copy')}}" required>
                   </div>
                   <div class="form-group">
                     <label for="file">File Cetak (.pdf atau .doc)</label>
-                    <input type="file" name="file" class="form-control-file" id="file">
+                    <input type="file" name="file" class="form-control-file" id="file" required>
                   </div>
                   <div class="form-group">
                     <label for="catatan">Catatan</label>
-                    <textarea name="catatan" id="catatan" class="form-control" rows="7" cols="90" placeholder="Masukan Detail mengenai cetakan kamu. Contoh : Halaman yang di cetak, Penjilidan, tebal kertas, dll.">{{set_value('catatan')}}</textarea>
+                    <textarea name="catatan" id="catatan" class="form-control" rows="7" cols="90" placeholder="Masukan Detail mengenai cetakan kamu. Contoh : Halaman yang di cetak, Penjilidan, tebal kertas, dll." required>{{set_value('catatan')}}</textarea>
                   </div>
-                  <div align="right">
-                    <button type="submit" class="btn btn-secondary"><i class="fa fa-print"></i> Cetak Sekarang!</button>
+
+                  <input type="hidden" name="biaya_cetak" id="perkiraan_biaya">
+
+                  <div align="center">
+                    <a class="btn btn-secondary text-white" id="btn-kalkulasi"><i class="fa fa-print"></i> Kalkulasi Biaya</a>
+                  </div> 
+                  
+
+                  <div class="alert alert-danger" id="tab-peringatan-form" style="display:none;">
+                    <p><span id="field"></span> Tidak Boleh Kosong</p>
                   </div>
+
+                  <div class="alert alert-primary text-center mt-3" id="tab-perkiraan">
+                    <h5>Perkiraan Biaya Cetak</h5>
+                    <p style="font-size:27px" id="biaya"> - </p>
+                  </div>
+
+                  <div id="tab-cetak" style="display:none;">
+                    <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-print"></i> Cetak Sekarang!</button>
+                  </div>
+
+                  <div class="alert alert-danger" id="tab-danger" style="display:none;">
+                    <p>Saldo kamu tidak mencukupi</p>
+                  </div>
+
                 </form>
               </div>
             </div>
@@ -119,7 +159,7 @@
                     <?php echo $message; ?>
                   </div>
                 <?php endif ?>
-                <form method="post" action="{{site_url('auth/login_pelanggan')}}">
+                <form method="post" action="{{site_url('auth/login_pelanggan')}}" name="login">
                   <input type="hidden" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" />
                   {{form_hidden('url', $data->id.'/'.$this->uri->segment(4).'/'.$data->slug);}}
 
@@ -164,4 +204,72 @@
       </div>
     </div>
   </div>
+@endsection
+
+@section('script') 
+<script type="text/javascript">
+  $(document).ready(function(){
+      // this bit needs to be loaded on every page where an ajax POST may happen
+      $.ajaxSetup({
+          data: {
+              csrf_test_name: $.cookie('csrf_cookie_name')
+          }
+      });
+      
+      // $('#perkiraan-biaya').load("<?php echo site_url('product/load_cart');?>");
+
+      //Simpan Obat
+      $('#btn-kalkulasi').on('click',function(){ 
+          var idjeniscetak      = $('#idjeniscetak').val();
+          var idjumlahsisi      = $('#idjumlahsisi').val();
+          var idstatusjilid     = $('#idstatusjilid').val(); 
+          var jumlah_lembar     = $('#jumlah_lembar').val(); 
+          var jumlah_copy       = $('#jumlah_copy').val();    
+          var saldo_pelanggan   = parseInt(<?php echo $saldo_pelanggan; ?>);  
+          console.log(idjeniscetak);
+          
+          if (idjeniscetak == '') { 
+              window.alert('Jenis cetak tidak boleh kosong');
+              $("#biaya").text(); 
+          } else if (idjumlahsisi == '') { 
+              window.alert('Jumlah Sisi tidak boleh kosong');
+              $("#biaya").text(); 
+          } else if (idstatusjilid == '') { 
+              window.alert('Status Jilid tidak boleh kosong');
+              $("#biaya").text(); 
+          } else if (jumlah_lembar == '') { 
+              window.alert('Jumlah Lembar tidak boleh kosong');
+              $("#biaya").text(); 
+          } else if (jumlah_copy == '') { 
+              window.alert('Jumlah Copy tidak boleh kosong');
+              $("#biaya").text(); 
+          }
+
+          $.ajax({
+              type : "POST",
+              url  : "<?php echo base_url('percetakan/kalkulasi_biaya')?>",
+              dataType : "JSON",
+              data : {idjeniscetak:idjeniscetak , idjumlahsisi:idjumlahsisi, idstatusjilid:idstatusjilid, jumlah_lembar:jumlah_lembar,  jumlah_copy:jumlah_copy},
+              success: function(data){     
+                $('#perkiraan_biaya').val(data);
+                
+                $("#biaya").text(toRp(data)); 
+                
+                if (data >= saldo_pelanggan) {
+                    document.getElementById('tab-danger').style.display = "block";
+                    document.getElementById('tab-cetak').style.display = "none";
+                } else {
+                    document.getElementById('tab-cetak').style.display = "block";
+                    document.getElementById('tab-danger').style.display = "none";
+                }
+ 
+              }, 
+          });
+          return false;
+      }); 
+
+  });
+ 
+  function toRp(a,b,c,d,e){e=function(f){return f.split('').reverse().join('')};b=e(parseInt(a,10).toString());for(c=0,d='';c<b.length;c++){d+=b[c];if((c+1)%3===0&&c!==(b.length-1)){d+='.';}}return'Rp.\t'+e(d)}
+</script> 
 @endsection

@@ -30,7 +30,7 @@
             <table class="table table-striped">
               <tr>
                 <td>Kode Cetak</td>
-                <td>{{$data->kode_pengambilan}}</td>
+                <td>{{$data->kode_cetak}}</td>
               </tr>
               <tr>
                 <td>Nama</td>
@@ -38,11 +38,11 @@
               </tr>
               <tr>
                 <td>Jenis Cetak</td>
-                <td>{{($data->jenis_cetak == '0')?'Normal':'Hitam Putih'}}</td>
+                <td>{{$jenis_cetak->nama}} {{rupiah($jenis_cetak->harga)}} / {{$jenis_cetak->satuan}}</td>
               </tr>
               <tr>
                 <td>Jumlah Sisi</td>
-                <td>{{($data->jumlah_sisi == '0')?'1 Sisi':'2 Sisi'}}</td>
+                <td>{{$jumlah_sisi->nama}} {{rupiah($jumlah_sisi->harga)}} / {{$jumlah_sisi->satuan}}</td>
               </tr>
               <tr>
                 <td>Jumlah Copy</td>
@@ -58,8 +58,8 @@
                   {{($data->status == '0')?'Belum Diproses':''}}
                   {{($data->status == '1')?'Diproses':''}}
                   {{($data->status == '2')?'Selesai':''}}
-                  {{($data->status == '3')?'Diambil':''}}
-                  {{($data->status == '4')?'Ditolak':''}}
+                  {{($data->status == '3')?'Ditolak':''}}
+                  {{($data->status == '4')?'Dibatalkan':''}}
                 </td>
               </tr>
               <tr>
@@ -122,7 +122,7 @@
 
                   <div class="form-group">
                     <label for="biaya_cetak">Biaya Cetak</label>
-                    <input value="{{set_value('biaya_cetak')}}" type="text" name="biaya_cetak" class="form-control" id="biaya_cetak" placeholder="Jumlah Biaya">
+                    <input value="{{$data->biaya_cetak}}" type="text" name="biaya_cetak" class="form-control" id="biaya_cetak" placeholder="Jumlah Biaya">
                   </div>
                   <div class="form-group">
                     <label for="catatan_percetakan">Catatan</label>

@@ -10,6 +10,8 @@ class Percetakan_model extends MY_Model
         $this->primary_key = 'id'; 
         $this->protected = array('id');
 
+		$this->has_one['kecamatan'] = array('W_kecamatan_model', 'id', 'id_kecamatan');
+		$this->has_one['kabupaten'] = array('W_kabupaten_model', 'id', 'id_kabupaten');
 		parent::__construct();
 	}   
 

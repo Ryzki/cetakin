@@ -93,14 +93,14 @@
                     <tr>
                       <td>{{$start++}}</td>
                       <td>{{$row->relasiuser->first_name}}</td>
-                      <td>{{$row->kode_pengambilan}}</td>
+                      <td>{{$row->kode_cetak}}</td>
                       <td>{{dateFormat(3, $row->created_at)}}</td>
                       <td>
                         {{($row->status == '0')?'<span class="label label-warning">Belum di Proses</span>':''}}
                         {{($row->status == '1')?'<span class="label label-primary">Sedang Diproses</span>':''}}
                         {{($row->status == '2')?'<span class="label label-success">Selesai</span>':''}}
-                        {{($row->status == '4')?'<span class="label label-info">Diambil</span>':''}}
                         {{($row->status == '3')?'<span class="label label-danger">Ditolak</span>':''}}
+                        {{($row->status == '4')?'<span class="label label-info">Dibatalkan</span>':''}}
                       </td>
                       <td>
                         <a href="{{site_url('petugas/pesanan_dokumen/view/'.$row->id)}}" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i> Lihat</a>

@@ -47,10 +47,9 @@ class Pesanan_foto extends MY_Controller
 			->where('idpercetakan', $petugas->idpercetakan)
 			->with_relasiuser()
 			->limit($config['per_page'], $offset = $start)
-			->order_by('status', 'ASC')
+			->order_by('created_at', 'DESC')
 			->get_all();
 		$config['total_rows'] = $this->pesanan_foto_model
-			->where('idpercetakan', $petugas->idpercetakan)
 			->count_rows();
 
 		$this->load->library('pagination');

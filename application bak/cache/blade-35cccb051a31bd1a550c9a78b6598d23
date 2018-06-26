@@ -1,0 +1,53 @@
+a:3:{s:4:"time";i:1519642071;s:3:"ttl";i:3600;s:4:"data";s:2084:"
+<?php $this->_section_start('title'); ?>Data Pelanggan<?php $this->_section_end(); ?>
+<?php $this->_section_start('content'); ?>
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Data Pelanggan
+      </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <!-- Default box -->
+      <div class="box">
+      <div class="box-header with-border">
+        <a href="<?php echo site_url('admin_cetakin/pelanggan/add'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Tambah Data</a>
+      </div>
+        <div class="box-body">
+          <table class="table table-hover table-striped">
+                <thead>
+                  <th>No.</th>
+                  <th>Nama</th>
+                  <th>Kategori</th>
+                  <th>Stok</th>
+                  <th>Aksi</th>
+                </thead>
+                <?php foreach($tampildata as $row): ?>
+                <tr>
+                  <td>1</td>
+                  <td><?php echo $row->nama; ?></td>
+                  <td><?php echo $row->email; ?></td>
+                  <td><?php echo $row->password; ?></td>
+                  <td>
+                    <a href="<?php echo site_url('pelanggan/view/'.$row->iduser); ?>" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i> Lihat</a>
+                    <a href="<?php echo site_url('pelanggan/edit/'.$row->iduser); ?>" class="btn btn-warning btn-sm"><i class="fa fa-pencil-square-o"></i> Edit</a>
+                    <a href="<?php echo site_url('pelanggan/delete/'.$row->iduser); ?>" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</a>
+                  </td>
+                </tr>
+                <?php endforeach; ?>
+              </table>
+        </div>
+        <div class="box-footer clearfix">
+          <?php echo $pagination; ?>    
+        </div>
+      </div>
+      <!-- /.box -->
+
+    </section>
+    <!-- /.content -->
+<?php $this->_section_end(); ?>
+<?php echo $this->_include('_layout/admin_cetakin/index'); ?>
+";}

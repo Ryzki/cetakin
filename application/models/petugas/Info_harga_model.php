@@ -10,6 +10,8 @@ class Info_harga_model extends MY_Model
         $this->primary_key = 'id'; 
         $this->protected = array('id');
 
+		$this->has_one['klasifikasi'] = array('Klasifikasi_harga_model','id','idklasifikasi');
+		
 		parent::__construct();
 	}   
 
@@ -151,6 +153,6 @@ class Info_harga_model extends MY_Model
             'page' => $this->uri->segment(2), 
         );    
         return $data;
-	}
+	} 
 
 }

@@ -19,23 +19,33 @@
 					<table class="table table-striped">
 						<tr>
 							<td style="width: 40%">Nama Percetakan</td>
-							<td>??</td>
+							<td>{{$percetakan->nama}} {{$percetakan->kecamatan->name}}, {{$percetakan->kabupaten->name}} </td>
 						</tr>
 						<tr>
 							<td>Kode Pengambilan</td>
-							<td>{{$data->kode_pengambilan}}</td>
+							<td>{{$data->kode_cetak}}</td>
 						</tr>
 						<tr>
 							<td>Jenis Cetak</td>
 							<td>
-								{{($data->jenis_cetak == '0')?'Normal':''}}
-								{{($data->jenis_cetak == '1')?'FC':''}}
-								{{($data->jenis_cetak == '2')?'High Quality':''}}
+								{{$jenis_cetak->nama}} {{rupiah($jenis_cetak->harga)}} / {{$jenis_cetak->satuan}}
 							</td>
 						</tr>
 						<tr>
 							<td>Jumlah Sisi</td>
-							<td>{{($data->jumlah_sisi == '0')?'1 Sisi':'2 Sisi'}}</td>
+							<td>
+								{{$jumlah_sisi->nama}} {{rupiah($jumlah_sisi->harga)}} / {{$jumlah_sisi->satuan}}
+							</td>
+						</tr>
+						<tr>
+							<td>Status Jilid</td>
+							<td>
+								{{$jumlah_status_jilid->nama}} {{rupiah($jumlah_status_jilid->harga)}} / {{$jumlah_status_jilid->satuan}}
+							</td>
+						</tr> 
+						<tr>
+							<td>Jumlah Lembar</td>
+							<td>{{$data->jumlah_lembar}} Lembar</td>
 						</tr>
 						<tr>
 							<td>Jumlah Copy</td>
@@ -51,14 +61,21 @@
 								{{($data->status == '0')?'Belum Diproses':''}}
 								{{($data->status == '1')?'Diproses':''}}
 								{{($data->status == '2')?'Selesai':''}}
-								{{($data->status == '3')?'Diambil':''}}
-								{{($data->status == '4')?'Ditolak':''}}
+								{{($data->status == '3')?'Ditolak':''}}
+								{{($data->status == '4')?'Dibatalkan':''}}
 							</td>
 						</tr>
+						<?php if($data->status == '0'){ ?>
 						<tr>
 							<td></td>
-							<td><a href="" class="btn btn-warning"><i class="fa fa-fw fa-close"></i> Batalkan</a></td>
+							<td><a href="{{site_url('pelanggan/pesanan/batalkan/'.$data->id)}}" class="btn btn-warning"><i class="fa fa-fw fa-close" onclick="return confirm('apakah anda yakin')"></i> Batalkan</a></td>
 						</tr>
+						<?php } else { ?>
+						<tr>
+							<td></td>
+							<td><a href="" class="btn btn-warning disabled"><i class="fa fa-fw fa-close" onclick="return confirm('apakah anda yakin')"></i> Batalkan</a></td>
+						</tr>
+						<?php } ?>
 					</table>
 				</div>
 				<div class="col-md-6">

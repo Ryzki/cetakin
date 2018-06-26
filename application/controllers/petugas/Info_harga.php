@@ -10,10 +10,10 @@ class Info_harga extends MY_Controller
 	{
 		parent::__construct();
 		$this->_accessable = true;
-		$this->load->helper(array('dump'));
-		$this->root_view = "petugas/";
+		$this->load->helper(array('dump', 'number')); 
 		$this->load->model('petugas/info_harga_model');
 		$this->load->model('petugas/petugas_model');
+		$this->load->model('klasifikasi_harga_model');
 		$this->load->model(array('petugas/info_harga_model'));
 	}
 
@@ -43,6 +43,7 @@ class Info_harga extends MY_Controller
 		$petugas = $this->petugas_model->where('idusers', $user->id)->get();
 
 		$data = $this->info_harga_model
+			->with_klasifikasi()
 			->where('kategori', '0')
 			->limit($config['per_page'], $offset = $start)
 			->where('idpercetakan', $petugas->idpercetakan)
@@ -80,21 +81,24 @@ class Info_harga extends MY_Controller
 
 	public function dokumen_add()
 	{
+		$data['kategori_info'] = $this->klasifikasi_harga_model->get_all();
+
 		$this->generateCsrf();
-		$this->render('petugas/info_harga/dokumen_add');
+		$this->render('petugas/info_harga/dokumen_add', $data);
 	}
 	public function dokumen_save()
 	{
 		// form validation
 		$this->form_validation->set_rules('nama', 'Nama', 'trim|required|min_length[1]|max_length[25]');
-		$this->form_validation->set_rules('harga', 'Harga', 'trim|required|min_length[3]|max_length[25]');
+		$this->form_validation->set_rules('harga', 'Harga', 'trim|required|min_length[0]|max_length[25]');
 		$this->form_validation->set_rules('satuan', 'Satuan', 'trim|required|min_length[3]|max_length[25]');
 		// end form validation
 
 		if ($this->form_validation->run() == false) {
+			$data['kategori_info'] = $this->klasifikasi_harga_model->get_all();
 
 			$this->generateCsrf();
-			$this->render('petugas/info_harga/dokumen_add');
+			$this->render('petugas/info_harga/dokumen_add', $data);
 		} else {
 			$data = $this->input->post();
 			$data['idpercetakan'] = $this->petugas_model->getPercetakan();
@@ -113,6 +117,7 @@ class Info_harga extends MY_Controller
 	public function dokumen_edit($id)
 	{
 		$data['data'] = $this->info_harga_model->get($id);
+		$data['kategori_info'] = $this->klasifikasi_harga_model->get_all();
 
 		$this->generateCsrf();
 		$this->render('petugas/info_harga/dokumen_edit', $data);
@@ -121,7 +126,7 @@ class Info_harga extends MY_Controller
 	{
 		// form validation
 		$this->form_validation->set_rules('nama', 'Nama', 'trim|required|min_length[1]|max_length[25]');
-		$this->form_validation->set_rules('harga', 'Harga', 'trim|required|min_length[3]|max_length[25]');
+		$this->form_validation->set_rules('harga', 'Harga', 'trim|required|min_length[0]|max_length[25]');
 		$this->form_validation->set_rules('satuan', 'Satuan', 'trim|required|min_length[3]|max_length[25]');
 		// end form validation
 

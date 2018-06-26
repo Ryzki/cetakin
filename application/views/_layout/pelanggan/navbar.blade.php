@@ -1,7 +1,6 @@
 <?php $page = $this->uri->segment(1); ?>
 
-  <nav class="navbar fixed-top navbar-expand-md bg-primary navbar-dark">
-    <div class="container">
+  <nav class="navbar fixed-top navbar-expand-md bg-primary navbar-dark"> 
       <a class="navbar-brand" href="{{site_url('homepage')}}">
         <img src="{{base_url('assets/image/logo.png')}}" width="150"  class="d-inline-block align-top" alt=""> 
       </a>

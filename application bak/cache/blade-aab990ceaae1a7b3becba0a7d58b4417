@@ -1,0 +1,65 @@
+a:3:{s:4:"time";i:1520057299;s:3:"ttl";i:3600;s:4:"data";s:3057:"
+<?php $this->_section_start('title'); ?>Home<?php $this->_section_end(); ?>
+<?php $this->_section_start('content'); ?>
+  <div class="py-5 text-center" style="background-image: url(&quot;https://pingendo.github.io/templates/sections/assets/cover_event.jpg&quot;);">
+    <div class="container py-5">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="display-3 mb-4 text-primary">Era Percetakan Digital</h1>
+          <p class="lead mb-5">Cetak Dokumen atau Foto dimanapun dan kapanpun
+            <br>Tersedia berbagai pilihan percetakan! </p> 
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="py-5">
+    <div class="container">
+      <h1 class="text-center"><b>Mengapa Menggunakan Cetakin?</b></h1>
+      <hr align="center" style="width: 20%">
+      <div class="row mt-5">
+      <div class="col-md-4 align-self-center text-center p-4"> <i class="d-block  fa fa-5x fa-ioxhost"></i>
+          <h3 class="my-2">Efisien</h3>
+          <p class="">Tidak perlu datang ke percetakan untuk mengirimkan file yang akan dicetak</p>
+        </div>
+        <div class="col-md-4 align-self-center text-center p-4"> <i class="d-block  fa fa-5x fa-hourglass-end"></i>
+          <h3 class="my-2">Hemat Waktu</h3>
+          <p class="">Ambil pesananmu ketika status pesanan telah selesai</p>
+        </div>
+        <div class="col-md-4 align-self-center text-center p-4"> <i class="d-block  fa fa-5x fa-home"></i>
+          <h3 class="my-2">Tentukan Percetakanmu</h3>
+          <p class="">Tersedia berbagai pilihan percetakan yang siap melayanimu</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="py-5">
+    <div class="container">
+      <h1 class="text-center"><b>Mau Cetak Apa Hari ini?</b></h1>
+      <hr align="center" style="width: 20%">
+      <div class="row text-center mt-4">
+        <div class="col-md-6">
+          <div class="card">
+            <img class="card-img-top" src="https://pingendo.com/assets/photos/wireframe/photo-1.jpg" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">Dokumen</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="" class="btn btn-primary">Daftar Percetakan</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card">
+            <img class="card-img-top" src="https://pingendo.com/assets/photos/wireframe/photo-1.jpg" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">Foto</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="#" class="btn btn-primary">Daftar Percetakan</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<?php $this->_section_end(); ?>
+<?php echo $this->_include('_layout/pengunjung/index'); ?>
+";}
