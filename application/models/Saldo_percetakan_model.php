@@ -9,6 +9,8 @@ class Saldo_percetakan_model extends MY_Model
 		$this->table = 'saldo_percetakan';
 		$this->primary_key = 'id';
 		$this->protected = array('id');
+		
+		$this->has_one['percetakan'] = array('Percetakan_model','id','id_percetakan');
 
 		parent::__construct();
 	}

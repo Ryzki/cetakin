@@ -5,11 +5,11 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="{{base_url()}}assets/admin/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="{{base_url()}}assets/image/user.png" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p><b>{{$user->first_name}}</b></p>
-          <span>Admin Percetakan</span>
+          <span>Petugas Percetakan</span>
         </div>
       </div>
       <br><br>
@@ -18,8 +18,8 @@
       <?php $sub_page = $this->uri->segment(3); ?>
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">MAIN NAVIGATION</li>
-        <li {{($page=='homepage')?'class="active"':''}}><a href="{{site_url('petugas/homepage')}}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+        <li class="header">DAFTAR MENU</li>
+        <li {{($page=='homepage')?'class="active"':''}}><a href="{{site_url('petugas/homepage')}}"><i class="fa fa-dashboard"></i> <span>Beranda</span></a></li>
         <li class="treeview {{($page=='pesanan_dokumen' || $page=='pesanan_foto')?'active':''}}">
           <a href="">
             <i class="fa fa-shopping-bag"></i> <span>Kelola Pesanan</span>
@@ -46,7 +46,7 @@
         </li>
         <li {{($page=='percetakan')?'class="active"':''}}><a href="{{site_url('petugas/percetakan')}}"><i class="fa fa-home"></i> <span>Kelola Data Percetakan</span></a></li>
         <li {{($page=='pengaturan')?'class="active"':''}}><a href="{{site_url('petugas/pengaturan')}}"><i class="fa fa-home"></i> <span>Pengaturan</span></a></li>
-        <li {{($page=='saldo_percetakan')?'class="active"':''}}><a href="{{site_url('petugas/saldo_percetakan')}}"><i class="fa fa-credit-card-alt"></i> <span>Lihat Saldo</span></a></li>
+        <li {{($page=='saldo_percetakan')?'class="active"':''}}><a href="{{site_url('petugas/saldo_percetakan')}}"><i class="fa fa-credit-card-alt"></i> <span>Saldo Percetakan</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->

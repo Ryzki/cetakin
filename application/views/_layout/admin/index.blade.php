@@ -65,7 +65,21 @@ if ($user->group_id == 2){
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-@yield('content')
+    <!-- Alert -->
+    <?php $message = $this->session->userdata('message'); ?>
+    @if($message) 
+        <div class="row" style="padding: 10px; padding-bottom: -5px">
+          <div class="col-md-12">
+              <div class="alert alert-{{ $message[1] }} alert-dismissable fade" id="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                  <h4><i class="icon fa fa-info"></i> Info</strong></h4>
+                  <p>{{ $message[0] }}</p>
+              </div>
+          </div> 
+        </div>
+    @endif
+    
+    @yield('content')
   </div>
   <!-- /.content-wrapper -->
 

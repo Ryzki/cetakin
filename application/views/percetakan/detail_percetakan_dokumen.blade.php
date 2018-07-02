@@ -7,7 +7,9 @@
     <div class="py-4 px-3">
       <div class="row">
         <div class="col-md-12 text-dark">
-          <h1 style="margin-bottom: 5px" class="text-left display-5"><span class="badge badge-primary">BUKA</span> {{$data->nama}}</h1>
+          <h1 style="margin-bottom: 5px" class="text-left display-5"> 
+            {{($data->status_percetakan == '1')?'<span class="badge badge-primary">BUKA</span>':'<span class="badge badge-danger">TUTUP</span>'}}
+            {{$data->nama}}</h1>
           <i class="fa fa-map-marker text-primary"></i> Kabat, Banyuwangi
         </div>
       </div>

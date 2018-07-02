@@ -29,7 +29,9 @@
               <div class="card-body">
                 <h5 class="card-title"><strong>{{$value->nama}}</strong></h5>
                 <p class="card-text">
-                  <span class="badge badge-primary">Buka</span> <br><br>
+                  {{($value->status_percetakan == '1')?'<span class="badge badge-primary">Buka</span>':'<span class="badge badge-danger">Tutup</span>'}}
+                   
+                  <br><br>
                   <i class="fa fa-map-marker text-primary"></i> Kabat, Banyuwangi
                 </p>
                 <a href="{{site_url('percetakan/detail/'.$value->id.'/'.$this->uri->segment(3).'/'.$value->slug)}}" class="btn btn-primary btn-block btn-sm">Kunjungi</a>

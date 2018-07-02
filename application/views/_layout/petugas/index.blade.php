@@ -62,7 +62,7 @@ if ($user->group_id == 1){
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-@yield('content')
+    @yield('content')
   </div>
   <!-- /.content-wrapper -->
 
@@ -73,6 +73,8 @@ if ($user->group_id == 1){
   </footer>
 </div>
 <!-- ./wrapper -->
+
+@yield('modal')
 
 <!-- jQuery 3 -->
 <script src="{{base_url()}}assets/admin/bower_components/jquery/dist/jquery.min.js"></script>
@@ -94,6 +96,9 @@ if ($user->group_id == 1){
     $('.sidebar-menu').tree()
   })
 </script>
+
+@yield('script')
+
 <script>
   @if($this->session->userdata('message'))
     <?php $message = $this->session->userdata('message');?>
